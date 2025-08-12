@@ -22,6 +22,23 @@ jobs:
     - name: Install dependencies
       run: npm install
       
+    - name: Debug environment variables
+      run: |
+        echo "Checking environment variables..."
+        echo "OPENAI_API_KEY: ${OPENAI_API_KEY:0:10}..."
+        echo "TWITTER_APP_KEY: ${TWITTER_APP_KEY:0:10}..."
+        echo "TWITTER_APP_SECRET: ${TWITTER_APP_SECRET:0:10}..."
+        echo "TWITTER_ACCESS_TOKEN: ${TWITTER_ACCESS_TOKEN:0:10}..."
+        echo "TWITTER_ACCESS_SECRET: ${TWITTER_ACCESS_SECRET:0:10}..."
+        echo "UNSPLASH_ACCESS_KEY: ${UNSPLASH_ACCESS_KEY:0:10}..."
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        TWITTER_APP_KEY: ${{ secrets.TWITTER_APP_KEY }}
+        TWITTER_APP_SECRET: ${{ secrets.TWITTER_APP_SECRET }}
+        TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+        TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
+        UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+
     - name: Run tweet bot
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
