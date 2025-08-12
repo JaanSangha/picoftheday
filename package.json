@@ -1,0 +1,19 @@
+{
+  "name": "picoftheday",
+  "version": "1.0.0",
+  "description": "Twitter bot that posts nature photos with AI-generated captions",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "twitter-api-v2": "^1.16.0",
+    "unsplash-js": "^7.0.19",
+    "openai": "^4.0.0",
+    "node-fetch": "^3.3.0"
+  }
+} 
