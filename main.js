@@ -18,6 +18,34 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
+// Diverse nature search terms for variety across seasons and settings
+const natureQueries = [
+    // Seasons
+    "autumn leaves", "fall foliage", "winter landscape", "snow mountain", "spring flowers", "summer meadow",
+    "cherry blossom", "winter forest", "autumn forest", "spring garden", "summer beach", "winter wonderland",
+    
+    // Landscapes
+    "mountain peak", "ocean waves", "desert dunes", "canyon view", "waterfall", "lake reflection",
+    "river valley", "coastal cliff", "prairie grassland", "rolling hills", "volcanic landscape", "glacier",
+    
+    // Weather & Sky
+    "sunrise mountain", "sunset ocean", "storm clouds", "rainbow after rain", "misty forest", "golden hour",
+    "dramatic sky", "northern lights", "starry night", "cloudy mountains", "foggy lake", "clear blue sky",
+    
+    // Wildlife habitats
+    "savanna", "rainforest", "tundra", "coral reef", "bamboo forest", "pine forest", "redwood trees",
+    "cactus desert", "tropical beach", "rocky shore", "wildflower field", "moss covered rocks",
+    
+    // Specific natural features
+    "natural arch", "hot springs", "cave entrance", "sand dunes", "ice formation", "rock formation",
+    "tree silhouette", "mountain reflection", "forest path", "stone bridge", "natural pool", "cliff edge"
+];
+
+// Function to get random nature query
+const getRandomNatureQuery = () => {
+    return natureQueries[Math.floor(Math.random() * natureQueries.length)];
+};
+
 // Function to download image
 const downloadImage = async (uri, filename) => {
     const response = await fetch(uri);
@@ -65,7 +93,9 @@ const tweet = async (retryCount = 10) => {
         try {
             console.log(`\n--- Attempt ${attempt} ---`);
             
-            const photo = await unsplash.photos.getRandom({ query: "Nature" });
+            const selectedQuery = getRandomNatureQuery();
+            console.log("Using search query:", selectedQuery);
+            const photo = await unsplash.photos.getRandom({ query: selectedQuery });
             const rawUrl = photo.response.urls.raw;
             const smallUrl = photo.response.urls.small;
             
@@ -104,7 +134,9 @@ const tweet = async (retryCount = 10) => {
                 console.log("All attempts failed. Using fallback caption.");
                 // On final failure, try one more time with fallback
                 try {
-                    const photo = await unsplash.photos.getRandom({ query: "Nature" });
+                    const fallbackQuery = getRandomNatureQuery();
+                    console.log("Using fallback search query:", fallbackQuery);
+                    const photo = await unsplash.photos.getRandom({ query: fallbackQuery });
                     const rawUrl = photo.response.urls.raw;
                     const filename = "image.png";
                     
